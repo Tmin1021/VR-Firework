@@ -18,6 +18,11 @@ public class FireworkLogic : MonoBehaviour
 
     void Update()
     {
+        LaunchFireWork();
+    }
+
+    void LaunchFireWork()
+    {
         fireworkTransform.position = Vector3.Lerp(fireworkTransform.position, fireworkTransform.position + Vector3.up * explodeHeight, Time.deltaTime * speed);
         if(fireworkTransform.position.y >= initY + explodeHeight)
         {
