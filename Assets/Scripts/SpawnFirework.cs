@@ -7,27 +7,21 @@ public class SpawnFirework : MonoBehaviour
     [SerializeField] GameObject firework;
     [SerializeField] float spawnTime = 2f;
     private Transform spawnPosition;
-
+    public bool ifLaunch = false;
     void Awake()
     {
         spawnPosition = GetComponent<Transform>();
     }
-    // Start is called before the first frame update
-    void Start()
+
+    public void Launch()
     {
         StartCoroutine(SpawnFwks());
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     IEnumerator SpawnFwks()
     {
-        while(spawnPosition != null) {
-            Instantiate(firework, spawnPosition.position + Vector3.up * 2f, Quaternion.identity);
+        while(spawnPosition != null && ifLaunch == true) {
+            Instantiate(firework, spawnPosition.position, Quaternion.identity);
             yield return new WaitForSeconds(spawnTime);
         }
     }

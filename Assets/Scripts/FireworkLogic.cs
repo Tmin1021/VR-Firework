@@ -5,17 +5,24 @@ using UnityEngine;
 public class FireworkLogic : MonoBehaviour
 {
     [SerializeField] GameObject explosionFX;
-    [SerializeField] float explodeHeight;
-    [SerializeField] float speed = 2f;
+    [SerializeField] float minExplodeHeight = 6f;
+    [SerializeField] float maxExplodeHeight = 8f;
+    [SerializeField] float minSpeed = 1.5f;
+    [SerializeField] float maxSpeed = 3f;
+    private float speed = 2f;
     private Transform fireworkTransform;
     private float initY;
-
+    private float explodeHeight;
     void Awake()
     {
         fireworkTransform = gameObject.GetComponent<Transform>();
         initY = fireworkTransform.position.y;
     }
-
+    void Start()
+    {
+        explodeHeight = Random.Range(minExplodeHeight, maxExplodeHeight);
+        speed = Random.Range(minSpeed, maxSpeed);
+    }
     void Update()
     {
         LaunchFireWork();
