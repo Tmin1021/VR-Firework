@@ -7,15 +7,31 @@ public class SpawnFirework : MonoBehaviour
     [SerializeField] GameObject firework;
     [SerializeField] float spawnTime = 2f;
     private Transform spawnPosition;
-    public bool ifLaunch = false;
+    private Coroutine coroutine = null;
+    private bool ifLaunch = false;
     void Awake()
     {
         spawnPosition = GetComponent<Transform>();
     }
 
-    public void Launch()
+    public void SetLaunch(bool value)
     {
-        StartCoroutine(SpawnFwks());
+        ifLaunch = value;
+        if(ifLaunch)
+        {
+            if(coroutine == null)
+            {
+                coroutine = StartCoroutine(SpawnFwks());
+            }
+        }
+        else
+        {
+            if(coroutine != null)
+            {
+                StopCoroutine(SpawnFwks());
+                coroutine = null;
+            }
+        }
     }
 
     IEnumerator SpawnFwks()
@@ -24,5 +40,7 @@ public class SpawnFirework : MonoBehaviour
             Instantiate(firework, spawnPosition.position, Quaternion.identity);
             yield return new WaitForSeconds(spawnTime);
         }
+
+        coroutine = null;
     }
 }

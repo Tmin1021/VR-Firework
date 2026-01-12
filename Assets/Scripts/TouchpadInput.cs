@@ -2,14 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class TouchpadInput : MonoBehaviour
 {
     [SerializeField] TMP_Text displayText;
     [SerializeField] string correctCode = "1234"; // test only
-    bool ifCorrect = false;
+    [SerializeField] string offCode = "0000"; // test only
     private string inputString = "";
     private SpawnFirework[] spawnFireworks;
+    private float messageTime = 0f;
+    private bool launched = false;
     void Awake()
     {
         spawnFireworks = FindObjectsByType<SpawnFirework>(FindObjectsSortMode.None);
@@ -23,7 +26,11 @@ public class TouchpadInput : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(messageTime > 0f && Time.time >= messageTime)
+        {
+            RefreshInput();
+            messageTime = 0f;
+        }
     }
 
     public void PressDigit(int digit)
@@ -37,7 +44,7 @@ public class TouchpadInput : MonoBehaviour
     {
         displayText.text = "Password";
         inputString = "";
-        ifCorrect = false;
+        launched = false;
     }
 
     public void DeleteDigit()
@@ -50,27 +57,39 @@ public class TouchpadInput : MonoBehaviour
 
     public void Enter()
     {
-        float timer = 0f;
-        timer += Time.deltaTime;
-        if(inputString == correctCode && timer < 3f)
+        if(inputString == correctCode)
         {
-            // displayText.text = "Correct Password";
-            // ifCorrect = true;
-            // return;
-
-            foreach(var launcher in spawnFireworks)
+            // displayText.text = "Correct Pwd";
+            // messageTime = Time.time + 1f;
+            if(launched == false)
             {
-                launcher.ifLaunch = true;
-                launcher.Launch();
+                foreach(var launcher in spawnFireworks)
+                {
+                    launcher.SetLaunch(true);
+                }
+                RefreshInput();
+                launched = true;
             }
 
             return;
         }
-        if(timer < 3f) displayText.text = "Wrong pwd";
-        else
+        else if(inputString == offCode)
         {
-            RefreshInput();
-            timer = 0f;
+            if(launched == true)
+            {    
+                foreach(var launcher in spawnFireworks)
+                {
+                    launcher.SetLaunch(false);
+                }
+                RefreshInput();
+                launched = false;
+            }
+            return;
         }
+
+        displayText.text = "Wrong pwd";
+        messageTime = Time.time + 1f;
+        return;
+
     }
 }
