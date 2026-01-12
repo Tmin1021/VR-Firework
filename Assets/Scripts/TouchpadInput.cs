@@ -44,7 +44,7 @@ public class TouchpadInput : MonoBehaviour
     {
         displayText.text = "Password";
         inputString = "";
-        launched = false;
+        // launched = false;
     }
 
     public void DeleteDigit()

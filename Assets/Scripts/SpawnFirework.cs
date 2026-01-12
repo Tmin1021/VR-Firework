@@ -13,7 +13,10 @@ public class SpawnFirework : MonoBehaviour
     {
         spawnPosition = GetComponent<Transform>();
     }
-
+    // void Start()
+    // {
+    //     SetLaunch(true);
+    // }
     public void SetLaunch(bool value)
     {
         ifLaunch = value;
@@ -28,7 +31,7 @@ public class SpawnFirework : MonoBehaviour
         {
             if(coroutine != null)
             {
-                StopCoroutine(SpawnFwks());
+                StopCoroutine(coroutine);
                 coroutine = null;
             }
         }

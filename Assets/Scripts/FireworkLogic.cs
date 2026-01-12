@@ -5,8 +5,8 @@ using UnityEngine;
 public class FireworkLogic : MonoBehaviour
 {
     [SerializeField] GameObject explosionFX;
-    [SerializeField] float minExplodeHeight = 6f;
-    [SerializeField] float maxExplodeHeight = 8f;
+    [SerializeField] float minExplodeHeight = 8f;
+    [SerializeField] float maxExplodeHeight = 10f;
     [SerializeField] float minSpeed = 1.5f;
     [SerializeField] float maxSpeed = 3f;
     private float speed = 2f;
